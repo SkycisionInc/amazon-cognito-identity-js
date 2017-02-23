@@ -1,6 +1,6 @@
 declare module "amazon-cognito-identity-js" {
 
-    import * as AWS from "aws-sdk";
+    import CognitoIdentityServiceProvider from "aws-sdk";
 
     export interface IAuthenticationDetailsData {
         Username: string;
@@ -30,9 +30,10 @@ declare module "amazon-cognito-identity-js" {
         public setAuthenticationFlowType(authenticationFlowType: string): string;
 
         public getSession(callback: Function): any;
+        public getUserAttributes(callback: (err: any, result: any) => void): void;
         public refreshSession(refreshToken: CognitoRefreshToken, callback: (err: any, result: any) => void): void;
         public authenticateUser(
-            atuthenticationDetails: AuthenticationDetails,
+            authenticationDetails: AuthenticationDetails,
             callbacks: {
                 onSuccess: (session: CognitoUserSession) => void,
                 onFailure: (err: any) => void,
@@ -44,7 +45,7 @@ declare module "amazon-cognito-identity-js" {
         public confirmRegistration(code: string, forceAliasCreation: boolean, callback: (err: any, result: any) => void): void;
         public resendConfirmationCode(callback: (err: Error, result: "SUCCESS") => void): void;
         public changePassword(oldPassword: string, newPassword: string, callback: (err: Error, result: "SUCCESS") => void): void;
-        public forgotPassword(callbacks: { onSuccess: () => void, onFailure: (err: Error) => void, inputVerificationCode: (data: any) => void }): void;
+        public forgotPassword(callbacks: { onSuccess: (result: any) => void, onFailure: (err: Error) => void, inputVerificationCode: (data: any) => void }): void;
         public confirmPassword(verificationCode: string, newPassword: string, callbacks: { onSuccess: (result: any) => void, onFailure: (err: Error) => void}): void;
         public setDeviceStatusRemembered(callbacks: { onSuccess: (success: string) => void, onFailure: (err: any) => void }): void;
         public setDeviceStatusNotRemembered(callbacks: { onSuccess: (success: string) => void, onFailure: (err: any) => void }): void;
@@ -111,7 +112,7 @@ declare module "amazon-cognito-identity-js" {
     }
 
     export class CognitoIdentityServiceProvider {
-        public config: AWS.CognitoIdentityServiceProvider.Types.ClientConfiguration;
+        public config: CognitoIdentityServiceProvider.Types.ClientConfiguration;
     }
 
     export class CognitoAccessToken {
