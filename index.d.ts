@@ -1,6 +1,6 @@
 declare module "amazon-cognito-identity-js" {
 
-    import * as AWS from "aws-sdk";
+    import CognitoIdentityServiceProvider from "aws-sdk";
 
     export type NodeCallback<E,T> = (err?: E, result?: T) => void;
 
@@ -27,6 +27,7 @@ declare module "amazon-cognito-identity-js" {
 
         public getSignInUserSession(): CognitoUserSession;
         public getUsername(): string;
+        public getUserAttributes(callback: (err: any, result: any) => void): void;
 
         public getAuthenticationFlowType(): string;
         public setAuthenticationFlowType(authenticationFlowType: string): string;
@@ -44,7 +45,11 @@ declare module "amazon-cognito-identity-js" {
         public confirmRegistration(code: string, forceAliasCreation: boolean, callback: NodeCallback<any, any>): void;
         public resendConfirmationCode(callback: NodeCallback<Error, "SUCCESS">): void;
         public changePassword(oldPassword: string, newPassword: string, callback: NodeCallback<Error, "SUCCESS">): void;
-        public forgotPassword(callbacks: { onSuccess: () => void, onFailure: (err: Error) => void, inputVerificationCode: (data: any) => void }): void;
+        public forgotPassword( callbacks: {
+            onSuccess: (result: any) => void,
+            onFailure: (err: Error) => void,
+            inputVerificationCode: (data: any) => void
+        }): void;
         public confirmPassword(verificationCode: string, newPassword: string, callbacks: { onSuccess: (result: any) => void, onFailure: (err: Error) => void}): void;
         public setDeviceStatusRemembered(callbacks: { onSuccess: (success: string) => void, onFailure: (err: any) => void }): void;
         public setDeviceStatusNotRemembered(callbacks: { onSuccess: (success: string) => void, onFailure: (err: any) => void }): void;
@@ -118,7 +123,7 @@ declare module "amazon-cognito-identity-js" {
     }
 
     export class CognitoIdentityServiceProvider {
-        public config: AWS.CognitoIdentityServiceProvider.Types.ClientConfiguration;
+        public config: CognitoIdentityServiceProvider.Types.ClientConfiguration;
     }
 
     export class CognitoAccessToken {
