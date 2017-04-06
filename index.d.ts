@@ -1,6 +1,6 @@
 declare module "amazon-cognito-identity-js" {
 
-    import CognitoIdentityServiceProvider from "aws-sdk";
+    import * as AWS from "aws-sdk";
 
     export type NodeCallback<E,T> = (err?: E, result?: T) => void;
 
@@ -126,7 +126,7 @@ declare module "amazon-cognito-identity-js" {
     }
 
     export class CognitoIdentityServiceProvider {
-        public config: CognitoIdentityServiceProvider.Types.ClientConfiguration;
+        public config: AWS.CognitoIdentityServiceProvider.Types.ClientConfiguration;
     }
 
     export class CognitoAccessToken {
