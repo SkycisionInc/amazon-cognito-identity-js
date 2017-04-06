@@ -25,7 +25,7 @@ declare module "amazon-cognito-identity-js" {
     export class CognitoUser {
         constructor(data: ICognitoUserData);
 
-        public getSignInUserSession(): CognitoUserSession;
+        public getSignInUserSession(): CognitoUserSession | null;
         public getUsername(): string;
         public getUserAttributes(callback: (err: any, result: any) => void): void;
 
@@ -53,6 +53,7 @@ declare module "amazon-cognito-identity-js" {
         public confirmPassword(verificationCode: string, newPassword: string, callbacks: { onSuccess: (result: any) => void, onFailure: (err: Error) => void}): void;
         public setDeviceStatusRemembered(callbacks: { onSuccess: (success: string) => void, onFailure: (err: any) => void }): void;
         public setDeviceStatusNotRemembered(callbacks: { onSuccess: (success: string) => void, onFailure: (err: any) => void }): void;
+        public getDevice(callbacks: {onSuccess: (success: string) => void, onFailure: (err: Error) => void}): any;
         public sendMFACode(confirmationCode: string, callbacks: { onSuccess: (session: CognitoUserSession) => void, onFailure: (err: any) => void }): void;
         public completeNewPasswordChallenge(newPassword: string,
                                             requiredAttributeData: any,
@@ -69,6 +70,7 @@ declare module "amazon-cognito-identity-js" {
         public updateAttributes(attributes: ICognitoUserAttributeData[], callback: NodeCallback<Error,string>): void;
         public deleteAttributes(attributeList: string[], callback: NodeCallback<Error, string>): void;
         public getAttributeVerificationCode(name: string, callbacks: { onSuccess: () => void, onFailure: (err: Error) => void, inputVerificationCode: (data: string) => void }): void;
+        public deleteUser(callback: (err :Error, success: string)=>void): void;
     }
 
     export interface ICognitoUserAttributeData {
@@ -105,7 +107,7 @@ declare module "amazon-cognito-identity-js" {
 
         public signUp(username: string, password: string, userAttributes: CognitoUserAttribute[], validationData: CognitoUserAttribute[], callback: NodeCallback<Error,ISignUpResult>): void;
 
-        public getCurrentUser(): CognitoUser;
+        public getCurrentUser(): CognitoUser | null;
     }
 
     export interface ICognitoUserSessionData {
