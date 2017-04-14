@@ -35,7 +35,7 @@
     "identity"
   ],
   "scripts": {
-    "postinstall": "npm run build",
+    "postinstall": "npm run build:es",
     "clean": "rimraf lib es",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
